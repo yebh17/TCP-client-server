@@ -26,6 +26,13 @@ public class Server
 
             System.out.println("Local Socket Address: "+serverSocket.getLocalSocketAddress());  
 
+            Socket clientSocket = serverSocket.accept();
+            
+            PrintWriter out =
+                    new PrintWriter(clientSocket.getOutputStream(), true);
+                    
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream()));
 
         }
         catch(Exception e)
