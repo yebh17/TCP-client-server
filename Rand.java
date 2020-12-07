@@ -4,7 +4,7 @@ import java.util.*;
 
 class Rand{
 
-    private static String[] arithOp = {"add","div","mul","fsub","fadd","fdiv","fmul","fsub"};
+    private static String[] arithOp = {"add","div","mul","sub","fadd","fdiv","fmul","fsub"};
 
     private static Random random = new Random();
 
