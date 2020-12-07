@@ -8,24 +8,38 @@ import java.net.*;
 
 public class Server
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
 
         String colonDelimited[] = args[0].split(":");
-        int portNumber = Integer.parseInt(colonDelimited[1]);
+        int port = Integer.parseInt(colonDelimited[1]);
 
-        try{
 
-            InetAddress addr = InetAddress.getByName(colonDelimited[0]);
 
-            ServerSocket serverSocket = new ServerSocket();
+        Process pr = new ProcessBuilder("./protocol.sh",Integer.toString(port)).start();
+        BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+        pr.waitFor();
+        String message = "";
 
-            SocketAddress endPoint=new InetSocketAddress(addr, portNumber);  
+ 
 
-            serverSocket.bind(endPoint);  
 
-            System.out.println("Local Socket Address: "+serverSocket.getLocalSocketAddress());  
 
+
+
+        InetAddress addr = InetAddress.getByName(colonDelimited[0]);
+
+        ServerSocket serverSocket = new ServerSocket();
+
+        SocketAddress endPoint=new InetSocketAddress(addr, port);  
+
+        serverSocket.bind(endPoint);  
+
+        while(true)
+        {
+            System.out.println("Waiting for the client request");
+
+            //creating socket and waiting for client connection
             Socket clientSocket = serverSocket.accept();
             
             PrintWriter out =
@@ -34,10 +48,13 @@ public class Server
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
 
+
+            while ((message=buf.readLine())!=null) {
+                
+                out.println(message);
         }
-        catch(Exception e)
-        {
-            System.out.print(e);
+
+
         }
             
 
