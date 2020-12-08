@@ -1,3 +1,4 @@
 #!/bin/sh
 
-lsof -i :$port | awk '{print $8}' | sed '1d'
+lsof -i :$1 | awk '{print $8}' | sed '1d'
+
