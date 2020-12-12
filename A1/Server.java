@@ -26,7 +26,7 @@ public class Server
 
         serverSocket.bind(endPoint);  
 
-        Process pr = new ProcessBuilder("./protocol.sh", Integer.toString(port) ).start();
+        Process pr = new ProcessBuilder("./protocol", Integer.toString(port) ).start();
         BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
         pr. waitFor();
         String message = buf.readLine();
