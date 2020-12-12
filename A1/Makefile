@@ -32,3 +32,4 @@ checkJava::
 clean:
 	$(REMOVE)
 	$(MODE_RESET)
+	
