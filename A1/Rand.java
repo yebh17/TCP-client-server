@@ -1,6 +1,4 @@
-
 import java.util.*;
-
 
 class Rand{
 
@@ -14,7 +12,7 @@ class Rand{
         int position = random.nextInt(upperBound); 
         return arithOp[position];
     }
-
+    
     public static int randIntegerValue()
     {
         int upperBound = 100;

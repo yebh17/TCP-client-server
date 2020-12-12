@@ -1,4 +1,3 @@
-
 public class Calculator
 {
     public static int calculate(String operation,int value1,int value2)
@@ -20,8 +19,6 @@ public class Calculator
             
         }
     }
-
-
 
     public static double calculate(String operation,double value1,double value2)
     {

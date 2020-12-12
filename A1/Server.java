@@ -1,10 +1,6 @@
-
 import java.io.*;
 
 import java.net.*;
-
-
-
 
 public class Server
 {
@@ -21,9 +17,6 @@ public class Server
 
         SocketAddress endPoint=new InetSocketAddress(addr, port);  
         
-        
-
-
         serverSocket.bind(endPoint);  
 
         Process pr = new ProcessBuilder("./protocol", Integer.toString(port) ).start();
@@ -90,25 +83,13 @@ public class Server
                                             {
                                                 out.println("error");
 
-                                            }
-                                            
                                         }
-
-
+                                            
                                     }
-
-                                
-                                
+                                }                           
                             }
-
-                        }  
-
-            clientSocket.close();
-            
-            
+                        }
+            clientSocket.close();            
         }
-            
-
-
     }
 }

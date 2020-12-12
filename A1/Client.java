@@ -1,4 +1,3 @@
-
 import java.io.*;
 
 import java.net.*;
@@ -67,7 +66,6 @@ public class Client
                 }
             }
             clientSocket.close();
-
     }
 }
 
