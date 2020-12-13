@@ -2,9 +2,12 @@ import java.io.*;
 
 import java.net.*;
 
+import java.util.*;
+
 public class Server
 {
-    static int i =1;
+    static String[] supportedVersions = {"1.0","1.1","1.2"};
+
     public static void main(String[] args) throws Exception
     {
 
@@ -32,9 +35,6 @@ public class Server
 
                  Socket clientSocket = serverSocket.accept();
 
-                 System.out.println("Handling Client "+ i);
-                i++;
-
                         PrintWriter out =
                             new PrintWriter(clientSocket.getOutputStream(), true);
                         
@@ -43,26 +43,36 @@ public class Server
 
                         if(message!=null)
                         {
-                            out.println("TEXT "+message+ " 1.0");
-                            if((request = in.readLine())!=null && request.equalsIgnoreCase("ok"))
+                            for(String version:supportedVersions)
+                            {
+                                out.println("TEXT "+ message + " "+ version);
+                            }
+                
+                            out.println("");
+                            if((request = in.readLine())!=null && request.equalsIgnoreCase("OK"))
                             {
                                 
-                                    System.out.println("OK");
                                     String command = Rand.randOperation();
                                     if(command.startsWith("f"))
                                     {
                                         double value1 = Rand.randDecimalValue();
                                         double value2 = Rand.randDecimalValue();
+                                        Formatter serverFormat = new Formatter();
                                         out.println(command+" "+ value1 +" "+ value2);
                                         if((request = in.readLine())!=null )
                                         {
-                                            if(request.equalsIgnoreCase( Double.toString(Calculator.calculate(command,value1,value2))))
+                                            double result = Calculator.calculate(command,value1,value2);
+                                            serverFormat.format("%8.8g", result); 
+                                            System.out.println("Server_result " + serverFormat);
+                                            System.out.println("");
+                                            if(request.equals( serverFormat.toString()))
                                             {
-                                                out.println("ok");
+                                                
+                                                out.println("OK");
                                             }
                                             else{
 
-                                                out.println("error");
+                                                out.println("ERROR");
                                             }
                                             
                                         }
@@ -75,13 +85,16 @@ public class Server
                                         out.println(command+" "+ value1 +" "+ value2);
                                         if((request = in.readLine())!=null)
                                         {
-                                            if(request.equalsIgnoreCase(Integer.toString(Calculator.calculate(command,value1,value2))))
+                                            int result = Calculator.calculate(command,value1,value2);
+                                            System.out.println("Server_result : " + result);
+                                            System.out.println("");
+                                            if(request.equalsIgnoreCase(Integer.toString(result)))
                                             {
-                                                out.println("ok");
+                                                out.println("OK");
                                             }
                                             else
                                             {
-                                                out.println("error");
+                                                out.println("ERROR");
 
                                         }
                                             

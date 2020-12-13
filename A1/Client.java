@@ -2,8 +2,11 @@ import java.io.*;
 
 import java.net.*;
 
+import java.util.*;
+
 public class Client
 {
+    static String version = "1.0";
     public static void main(String[] args) throws Exception
     {
             String colonDelimited[] = args[0].split(":");
@@ -24,34 +27,60 @@ public class Client
             BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
             pr. waitFor();
             String protocol = buf.readLine();
-            protocol = "TEXT "+protocol+" 1.0";
+            protocol = "TEXT "+protocol +" " + version;
 
             String input;
             boolean completed = false;
-            while((completed!=true && (input = in.readLine())!=null )) {
+            while(completed!=true && (input = in.readLine())!=null ) {
 
-                if(input.equalsIgnoreCase(protocol))
+                ArrayList<String> serverVersions = new ArrayList<String>();
+                while(!input.equals(""))
                 {
-                    Thread.sleep(10000);
-                    System.out.println(input);
+                    serverVersions.add(input);
+                    input = in.readLine();
+
+                }
+                if(serverVersions.contains(protocol))
+                {
+                    System.out.println(protocol);
                     out.println("OK");
                     input = in.readLine();
                     if(input!=null)
                     {
-                        System.out.println(input);
                         String[] operations = input.split(" ");
                         if (operations[0].startsWith("f"))
                         {
+
                             double result = Calculator.calculate(operations[0],Double.parseDouble(operations[1]),Double.parseDouble(operations[2]));
-                            System.out.println(result);
-                            out.println(result);
+                            Thread.sleep(500);
+
+                            Formatter formatter = new Formatter();
+                            formatter.format("%8.8g", result); 
+                            System.out.println("Client_Result : " + formatter);
+                            out.println(formatter);
+                            input = in.readLine();
+                            Thread.sleep(500);
+                            if(input!=null)
+                            {
+                                                
+
+                                System.out.println(input);
+                            }
                         }
                         else
                         {
                             int result = Calculator.calculate(operations[0],Integer.parseInt(operations[1]),Integer.parseInt(operations[2]));
-                            System.out.println(result);
-                            out.println(result);
+                            Thread.sleep(500);
 
+                            System.out.println("Client_Result : " + result);
+                            out.println(result);
+                            input = in.readLine();
+                            Thread.sleep(500);
+
+                            if(input!=null)
+                            {
+                                System.out.println(input);
+                            }
 
 
                         }
@@ -61,7 +90,7 @@ public class Client
                 }
                 else
                 {
-                    System.out.print("Client Doesnot support the protocol");
+                    System.out.println("Error: Server Supported Protocols " + serverVersions);
                     break;
                 }
             }
